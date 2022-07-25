@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Superhero Sightings</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.js"></script>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h1 th:href="@{/index}">Superhero Sightings</h1>
+        </div>
+    </div>
+
+    <!-- MENU -->
+    <div class="row m-4 border border-dark">
+        <div class="col text-center m-3">
+            <a href="#" th:href="@{/getAllHeroes}" class="btn btn-outline-primary btn-lg">Superheroes</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="#" th:href="@{/getAllLocations}" class="btn btn-outline-primary btn-lg">Locations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="#" th:href="@{/getAllOrgs}" class="btn btn-outline-primary btn-lg">Organizations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="#" th:href="@{/getAllSightings}" class="btn btn-outline-primary btn-lg">Sightings</a>
+        </div>
+    </div>
+
+    <div class="row m-4">
+        <div class="col text-center border">
+            <h2>Latest 10 sightings</h2>
+        </div>
+    </div>
+
+    <!-- 10 MOST RECENT SIGHTINGS -->
+    <!-- Sighting Listing -->
+    <div class="row m-4 border border-dark">
+        <div class="col text-center m-3">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Super</th>
+                    <th>Location</th>
+<!--                    <th>Edit</th>-->
+<!--                    <th>Delete</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sighting : ${sightings}" id="sightingtable">
+                    <td th:text="${sighting.getSSid()}">ID</td>
+                    <td th:text="${sighting.getSSdate()}">Date</td>
+                    <td th:text="${sighting.getSuperhero().getSname()}">Super</td>
+                    <td th:text="${sighting.getLocation().getLname()}">Location</td>
+<!--                    <td><a href="#" th:href="@{/editSighting(id=${sighting.getSSid()})}">Edit</a></td>-->
+<!--                    <td><a href="#" th:href="@{/deleteSighting(id=${sighting.getSSid()})}">Delete</a></td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!--    map-->
+    <div class="row m-4 border border-dark">
+        <div id="map-canvas" style="width: 1100px; height: 500px;">
+
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+
+        var message2 = [[${sightings}]]
+
+        console.log(message2);
+
+        var data = message2.map(s=>({
+            "hero":s.superhero.sname,
+            "location":s.location.lname,
+            "latitude":s.location.llatitude,
+            "longtitude":s.location.llongtitude
+        }))
+
+        google.maps.event.addDomListener(window,'load',viewInMap(data));
+
+
+        console.log(data);
+    });
+
+    function viewInMap(data){
+        var mapProp ={
+            center: new google.maps.LatLng(43.6532, -79.3832),
+            zoom:6,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),mapProp);
+
+
+        for (var i = 0; i < data.length; i++) {
+            marker = new google.maps.Marker({
+                position : new google.maps.LatLng(data[i]['latitude'],data[i]['longtitude'])
+            });
+            marker.setMap(map);
+            var infowindow = new google.maps.InfoWindow({
+                content: 'Superhero' + data[i]['hero'] +
+                    '<br>Place: ' + data[i]['location']
+            });
+            infowindow.open(map,marker);
+
+        }
+    }
+</script>
+
+<!-- End main body -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4Xenhh0UkMUaZf4EcTjB6rqB0UoibXjQ&sensor=true"
+        type="text/javascript"></script>
+</body>
+</html>

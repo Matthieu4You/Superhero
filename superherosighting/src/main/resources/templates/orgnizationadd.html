@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+  <title>OrgnizationEdit</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+  <div class="row m-4">
+    <div class="col text-center border border-dark">
+      <a th:href="@{/index}">
+        <h1>Superhero Sightings</h1>
+      </a>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllHeroes}" class="btn btn-outline-primary btn-lg">Superheroes</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllLocations}" class="btn btn-outline-primary btn-lg">Locations</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllOrgs}" class="btn btn-primary btn-lg">Organizations</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllSightings}" class="btn btn-outline-primary btn-lg">Sightings</a>
+    </div>
+  </div>
+
+  <!-- EDIT SUPER -->
+  <div class="row m-4 border border-dark">
+    <div class="col-3 text-center m-3">
+      <span class="h3">Add Orgnization</span>
+    </div>
+    <div class="col-7 text-center m-3">
+      <form action="#" th:action="@{/addOrg}" th:object="${org}" method="POST">
+        <div class="form-group row">
+          <label for="Oname" class="col-3 col-form-label">Name</label>
+          <div class="col-9">
+            <input type="text" name="Oname" id="Oname" class="form-control"
+                   th:value="*{Oname}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="Odescription" class="col-3 col-form-label">Description</label>
+          <div class="col-9">
+            <input type="text" name="Odescription" id="Odescription" class="form-control"
+                   th:value="*{Odescription}"/>
+          </div>
+        </div>
+        <!--                单选框-->
+        <div class="form-group row">
+          <label for="Lid" class="col-3 col-form-label">Address</label>
+          <div class="col-9">
+            <select multiple id="Lid" name="Lid"
+                    class="form-control">
+              <option th:each="location : ${locations}" th:value="${location.Lid}" th:text="${location.Laddress}" th:selected="*{Lid}==${location.Lid}"></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="Ocontact" class="col-3 col-form-label">Contact info</label>
+          <div class="col-9">
+            <input type="text" name="Ocontact" id="Ocontact" class="form-control"
+                   th:value="*{Ocontact}"/>
+          </div>
+        </div>
+        <!--                多选框-->
+        <div class="form-group row">
+          <label for="Superhero" class="col-3 col-form-label">Superheroes</label>
+          <div class="col-9">
+            <input type="checkbox" name="Superhero" id="Superhero"
+                   th:each="hero:${heroes}"
+                   th:value="${hero.Sid}"
+                   th:text="${hero.Sname}"/>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Ok</button>
+        <a href="#" th:href="@{/getAllOrgs}" class="btn btn-danger btn-md">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- End main body -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

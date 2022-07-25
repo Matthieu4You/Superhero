@@ -1,0 +1,15 @@
+package com.mattu.superherosighting.Model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Superherosight {
+    int SSid;
+    String SSdate;
+    Superhero superhero;
+    Location location;
+}

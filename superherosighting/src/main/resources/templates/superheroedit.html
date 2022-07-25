@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <title>Superhero Sightings</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+
+<div class="container">
+  <div class="row m-4">
+    <div class="col text-center border border-dark">
+        <a th:href="@{/index}">
+            <h1>Superhero Sightings</h1>
+        </a>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllHeroes}" class="btn btn-primary btn-lg">Superheroes</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllLocations}" class="btn btn-outline-primary btn-lg">Locations</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllOrgs}" class="btn btn-outline-primary btn-lg">Organizations</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="#" th:href="@{/getAllSightings}" class="btn btn-outline-primary btn-lg">Sightings</a>
+    </div>
+  </div>
+
+  <!-- EDIT SUPER -->
+  <div class="row m-4 border border-dark">
+    <div class="col-3 text-center m-3">
+      <span class="h3">Superhero Info</span>
+    </div>
+    <div class="col-7 text-center m-3">
+      <form action="#" th:object="${hero}" th:action="*{Sid}==0?@{/addHero}:@{/editHero}" method="POST">
+        <div class="form-group row">
+          <label for="Sname" class="col-3 col-form-label">Name</label>
+          <div class="col-9">
+            <input type="text" name="Sname" id="Sname" class="form-control"
+                   th:value="*{Sname}"/>
+<!--            <div th:if="${#fields.hasErrors('super.name')}">-->
+<!--              <p th:each="error : ${#fields.errors('super.name')}" class="alert alert-danger"-->
+<!--                 th:text="${error}"> Name errors</p>-->
+<!--            </div>-->
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="Sdescription" class="col-3 col-form-label">
+            Description</label>
+          <div class="col-9" contenteditable="true">
+<!--            <textarea name="description"-->
+<!--                      id="description" class="form-control"-->
+<!--                      rows="5">-->
+<!--            </textarea>-->
+            <input type="text" name="Sdescription"
+                   id="Sdescription" class="form-control"
+                   th:value="*{Sdescription}"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="Ssp" class="col-3 col-form-label">Powers</label>
+          <div class="col-9">
+<!--            <textarea name="powers"-->
+<!--                      id="powers" class="form-control"-->
+<!--                      rows="5">-->
+<!--            </textarea>-->
+            <input type="text" name="Ssp"
+                   id="Ssp" class="form-control"
+                   th:value="*{Ssp}"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="Svillian" class="col-3 col-form-label">isVillian</label>
+          <div class="col-9">
+            <select multiple id="Svillian" name="Svillian"
+                    class="form-control">
+              <option value=0 text="not villian" th:selected="*{Svillian}==0">not villian</option>
+              <option value=1 text="is villian" th:selected="*{Svillian}==1">is villian</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="heroOrg" class="col-3 col-form-label">Organizations</label>
+          <div class="col-9">
+            <select multiple id="heroOrg" name="heroOrg"
+                    class="form-control">
+              <option th:each="org : ${orgnizations}"
+                      th:value="${org.Oid}"
+                      th:text="${org.Oname}"
+                      th:selected="${heroOrg.Oid}==${org.Oid}">
+                Organization Name</option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" name="Sid" th:value="*{Sid}"/>
+        <button type="submit" class="btn btn-primary">Ok</button>
+        <a href="#" th:href="@{/getAllHeroes}" class="btn btn-danger btn-md">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>;
